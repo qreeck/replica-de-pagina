@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:share_plus/share_plus.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 class FreshCoffeeCard extends StatelessWidget {
   const FreshCoffeeCard({
@@ -12,6 +14,27 @@ class FreshCoffeeCard extends StatelessWidget {
   final double horizontalMargin;
   final double maxWidth;
 
+  // Comparte/guarda el PDF usando la hoja del sistema (iOS/Android)
+  static Future<void> _sharePdf() async {
+    // Carga el PDF desde assets
+    final bytes = await rootBundle
+        .load('assets/docs/visit-us.pdf')
+        .then((bdl) => bdl.buffer.asUint8List());
+
+    // Abre la hoja nativa para que el usuario elija dónde guardar/compartir
+    await Share.shareXFiles(
+      [
+        XFile.fromData(
+          bytes,
+          name: 'visit-us.pdf',
+          mimeType: 'application/pdf',
+        ),
+      ],
+      text: 'Nuestro menú (PDF)',
+      subject: 'Menú del café',
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     // Colores base (idénticos a la web)
@@ -22,7 +45,7 @@ class FreshCoffeeCard extends StatelessWidget {
 
     // Tamaño de letras de WORTH/DRINKING (ligeramente responsivo)
     final w = MediaQuery.of(context).size.width;
-    final titleSize = w < 360 ? 34.0 : 38.0; // ajusta si la quieres más grande
+    final titleSize = w < 360 ? 34.0 : 38.0;
 
     return Center(
       child: Container(
@@ -62,8 +85,7 @@ class FreshCoffeeCard extends StatelessWidget {
               style: GoogleFonts.raleway(
                 fontSize: titleSize,
                 height: 1.1,
-                fontWeight: FontWeight
-                    .w200, // fino (usa w100 si la quieres aún más delgada)
+                fontWeight: FontWeight.w200,
                 letterSpacing: 1.6,
                 color: textDark.withValues(alpha: 0.90),
               ),
@@ -101,7 +123,7 @@ class FreshCoffeeCard extends StatelessWidget {
             SizedBox(
               width: 190,
               child: ElevatedButton(
-                onPressed: () {},
+                onPressed: _sharePdf,
                 style: ElevatedButton.styleFrom(
                   backgroundColor: btn,
                   foregroundColor: Colors.black.withValues(alpha: 0.85),
