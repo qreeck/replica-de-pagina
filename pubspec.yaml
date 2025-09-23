@@ -1,0 +1,32 @@
+name: flutter_application_1
+description: "A new Flutter project."
+publish_to: "none"
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+  google_fonts: ^6.2.1
+  
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+  assets:
+    - assets/images/bg-masthead.jpg
+    - assets/images/intro.jpg
+    - assets/images/about.jpg
+    - assets/images/store.jpg
+    - assets/images/products.jpg
+    - assets/images/products-01.jpg
+    - assets/images/products-02.jpg
+    - assets/images/products-03.jpg
+    - assets/images/cafeteria.jpg
+    - assets/images/bg.jpg
